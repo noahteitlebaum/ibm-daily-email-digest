@@ -1,0 +1,37 @@
+name: IBM Daily Digest
+
+# Free, always-on scheduler. Runs on GitHub's servers — no local machine needed.
+on:
+  schedule:
+    # Cron is UTC. 12:00 UTC = 9:00 AM Atlantic (summer/ADT). Use 13:00 in winter.
+    # Weekdays only:
+    - cron: "0 12 * * 1-5"
+  workflow_dispatch: {}   # lets you run it manually from the Actions tab to test
+
+jobs:
+  send-digest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements-ibm.txt
+
+      - name: Run the digest
+        env:
+          EMAIL_METHOD: sendgrid
+          ICA_API_KEY: ${{ secrets.ICA_API_KEY }}
+          ICA_CHAT_URL: ${{ secrets.ICA_CHAT_URL }}
+          ICA_MODEL: ${{ secrets.ICA_MODEL }}
+          ICA_AUTH_SCHEME: ${{ secrets.ICA_AUTH_SCHEME }}
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
+        run: python -m src.main --no-decks

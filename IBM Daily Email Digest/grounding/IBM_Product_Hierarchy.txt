@@ -1,0 +1,227 @@
+CCs_Processes-Product_Hierarchy
+(Canonical IBM product taxonomy — use to map each opportunity insight to a real
+IBM product, its platform, and its folder code. Names in [brackets] are the
+internal folder codes. Items marked "Shortcut" are cross-listed elsewhere.)
+
+IBM's Four Technology Platforms (Core Competencies)
+I.    Data Platform
+II.   Automation Platform
+III.  Infrastructure Platform
+IV.   Transaction Processing Platform (TPP) (IBMz)
+
+IBM's Three Services & Technical Expertise (Experiences)
+Top-Level Product Categories
+01.   Data/AI (Data) [01-Data_AI]
+02.   Automation (Auto) [02-Auto]
+03.a) Infrastructure (Infra) [03_1-Infra]
+03.b) Technology Lifecycle Services (TLS) [03_2-TLS]
+04.a) Technology Expert Labs (TEL) [04_1-TEL]
+04.b) IBM Managed Services & Outsourcing [04_2-MS]
+05.   IBMz (Z) [05-IBMz]
+
+*****FULL PRODUCT TREE***** (Categories & sub-Categories)
+01.   DATA_AI PLATFORM
+      01.1) AI Platform [01-AI_Ptfm]
+            01.1.1) AI Assistants
+            01.1.2) AI Development & Operations Tools
+            01.1.3) AI Governance
+      01.2) Data Platform [02-Data_Ptfm]
+            - Data Governance & Catalog
+            - Data Lineage
+            - Data Quality
+            - Data Privacy
+            - Master Data Management
+            - Data Product Management & Sharing
+            01.2.1) Data Integration
+            01.2.2) Data Stores & Databases
+            01.2.3) Analytics & BI
+            01.2.4) Data Security & Compliance
+02.   AUTOMATION PLATFORM
+      02.1) IT Observability, AIOps & FinOps
+      02.2) Infrastructure Automation
+            02.2.1) Primary
+            02.2.2) HashiCorp
+      02.3) IT Asset Management
+      02.4) Integration & APIs
+      02.5) App Development & DevOps
+      02.6) Network Management
+      02.7) Identity & Access Management (IAM)
+      02.8) Business & Workflow Automation
+      02.9) Security & Identity (QRadar)
+03.1. INFRASTRUCTURE
+      03.1.1) Hybrid Cloud Platform
+            03.1.1.1) Red Hat OpenShift
+            03.1.1.2) IBM Cloud
+            03.1.1.3) Red Hat Enterprise Linux (RHEL)
+            03.1.1.4) IBM Cloud Paks
+            03.1.1.5) Cloud Foundry
+      03.1.2) Storage
+            03.1.2.1) IBM Storage Software_Spectrum
+            03.1.2.2) IBM Storage Systems
+            03.1.2.3) IBM Cloud Storage
+      03.1.3) Power Systems
+            03.1.3.1) Power Hardware
+            03.1.3.2) Power Software & Virtualization
+            03.1.3.3) Power Cloud
+            03.1.3.4) Power Services
+      03.1.4) Network & Edge
+            03.1.4.1) Edge Computing
+            03.1.4.2) Cloud Networking
+03.2. TECHNOLOGY LIFECYCLE SERVICES (TLS)
+      03.2.1) Hardware Maintenance & Support
+      03.2.2) Asset Lifecycle Services
+      03.2.3) Managed Infrastructure Services
+      03.2.4) Resale
+            03.2.4.1) End-User Computing
+            03.2.4.2) Data Center & Enterprise Infrastructure
+            03.2.4.3) Networking Equipment
+            03.2.4.4) Mobility & Rugged Devices
+            03.2.4.5) Peripherals & Accessories
+04.   TECHNOLOGY EXPERT LABS (TEL)
+      04.1) Domain Expert Labs
+            04.1.1) Expert Labs for Data and AI
+            04.1.2) Expert Labs for Automation
+            04.1.3) Expert Labs for Security
+            04.1.4) Expert Labs for Z
+            04.1.5) Expert Labs for Infrastructure and Cloud
+      04.2) Client Engineering (CE) & Co-Creation
+            04.2.1) Client Engineering Engagements
+            04.2.2) Prototypes, Pilots & MVPs
+            04.2.3) Technical_Discovery_Architecture_Workshops
+            04.2.4) Co-Creation Workshops
+      04.3) Sales Value Engineering (SVE)
+      04.4) Industry-Anchored Services
+05.   IBMZ
+      05.1) Hardware
+            05.1.1) IBMz_zSystems_mainframes
+            05.1.2) IBM LinuxONE
+      05.2) Z Software & Middleware
+            05.2.1) zOS_and_Virt
+            05.2.2) z_Trans_Proc
+            05.2.3) z_Database
+            05.2.4) z_Inte_Msging
+            05.2.5) z_Sys_Mgmt_Ops
+            05.2.6) z_Dev_Tools
+      05.3) Z Modernization
+            05.3.1) z_App_Modernization
+            05.3.2) z_Dev_Test
+            05.3.3) z_DevSecOps
+            05.3.4) z_API_Int_Modern
+            05.3.5) z_Data_Event_Modern
+      05.4) Z Security & Compliance
+            05.4.1) IA_and_Admin
+            05.4.2) Encryption_Key_Mgmt
+            05.4.3) Threat_Detect_Monitor
+            05.4.4) Compl_Auto_Reporting
+            05.4.5) Cyber_Resilience
+
+**********KEY PRODUCTS BY CATEGORY (with folder codes)**********
+
+01. DATA_AI PLATFORM [01-Data_AI]
+  01.1 AI Platform [01-AI_Ptfm]
+    AI Assistants [01-AI_Assistants]: watsonx.Assistant [01-wx_Assistant];
+      watsonx.Assistant_for_z [02-wx_Assistant_for_z]; watsonx.Orchestrate [03-wx_Orchestrate]
+    AI Dev & Ops Tools [02-AI_Dev_and_Ops_Tools]: BOB [01-BOB];
+      watsonx.Code Assistant [02-WCA]; Watson Studio [03-Watson_Studio];
+      Watson Discovery [04-wx_Discovery]; IBM Granite [05-IBM_Granite]
+    Data & AI Governance [03-Data_AI_Governance]: OpenPages [01-OpenPages];
+      watsonx.Governance [02-wx_Governance]
+    Analytics & BI [04-Analytics_BI]: Planning Analytics [01]; Decision Optimization [02];
+      Cognos Analytics [03]; Business Analytics [04]; SPSS Statistics [05];
+      Analytics Content Hub [06]; watsonx.BI [07]
+  01.2 Data Platform [02-Data_Ptfm]
+    Data Intelligence [01-Data_Intel]: watsonx.Data Intelligence [01-wx_Data_Intel];
+      Knowledge Catalog [02]; Knowledge Accelerators [03]; InfoSphere Info Governance [04];
+      MANTA [05]; Master Data Management (MDM) [06/09]; Match 360 [10];
+      OpenPages Data Privacy Management [07]; InfoSphere Optim [08];
+      Product Master [12]; Data Product Hub [01-Data_Product_Hub]
+    Data Integration [02-Data_Inte]: Confluent [01]; Databand [02];
+      watsonx.data integration [03]; DataStage [04]; StreamSets [05]; ACE [03]; webMethods [07]
+    Data Stores & Databases [03-Data_Stores_DBs]: watsonx.data [01]; Db2 [02];
+      Netezza [03]; Informix [04]; Cloudant [05]; Resale DBs [06] (MongoDB, Cloudera, SingleStore, EDB)
+    Data Security & Compliance [04-Data_Sec_Comp]: Guardium [01] (Data Security Center,
+      Data Protection, Vulnerability Assessment, Discover & Classify, Cryptography Manager/Quantum Safe,
+      Key Lifecycle Manager); OpenPages Data Privacy Management
+
+02. AUTOMATION PLATFORM [02-Auto]
+  02.1 IT Observability, AIOps & FinOps [01-IT_Obs_FinOps]: Cloudability [01]; Kubecost [02];
+    Apptio [03] (Costing, Billing, Planning, Benchmarking); Turbonomic [04];
+    Instana (APM) [02]; Concert ITOps [03] (incl. Concert Workflows); Workload Automation [04];
+    Flexera (OEM) [05]; Targetprocess [06]; Cloud Pak for AIOps (CP4AIOps)
+  02.2 Infrastructure Automation [02-Infra_Auto]: HashiCorp (Terraform, Vault, Consul, Nomad,
+    Waypoint, Boundary, Packer); Red Hat Ansible Automation; Tivoli Infrastructure Automation
+  02.3 IT & Asset Mgmt [03-IT_and_Asset_Mgmt]: Maximo_MAS [01-Maximo_MAS]; TRIRIGA [02];
+    Envizi [03]; EIS [04]; Sterling Order Management [05]
+  02.4 Integration & APIs [04-Inte_API]: Sterling Secure File Transfer [01]; Sterling B2B [02];
+    ACE (App Connect Enterprise) [03]; API Connect [04]; MQ Messaging [05]; DataPower Gateway [06];
+    Aspera [07]; Event Automation [08]; Event Streams [09]; webMethods Hybrid Integration [10];
+    File Transfer Service [11]; Safer Payments [12]; Cloud Pak for Integration (CP4I)
+  02.5 App Dev & DevOps [05-App_Dev_DevOps]: WebSphere Application Server (WAS) [01];
+    Enterprise Build of Quarkus [02]; IBM DevOps [03]; Jsphere Suite for Java [04];
+    Engineering Lifecycle Management (ELM) [05]; BOB; Cloud Pak for Applications (CP4Apps)
+  02.6 Network Mgmt [06-Ntwk_Mgmt]: SevOne [01]; NS1 Connect [02]; Hybrid Cloud Mesh [03];
+    IBM Network Intelligence [04]; Cloud Pak for Network Automation (CP4NA)
+  02.7 IAM [07-IAM]: Verify [01] (CIAM, Workforce Identity, Identity Governance, Directory,
+    Identity Protection, Application Gateway, Trust, Privileged Identity, for Government);
+    Trusteer [02]; MaaS360 [03]; HashiCorp Vault
+  02.8 Business & Workflow Automation [08-Bus_Wkfw_Auto]: Business Automation Workflow (BAW) [01];
+    Operational Decision Manager (ODM) [02]; Robotic Process Automation (RPA) [03];
+    webMethods BPM Optimize [04]; Process Mining [05]; Cloud Pak for Business Automation (CP4BA);
+    Document & Content Automation: FileNet Content Manager, Content Manager, Datacap
+  02.9 Security & Identity [09-Sec_Identity]: Automation Brand Vulnerability Assessment;
+    Project Lightwell (IBM & Red Hat); Noname / IBM API Advanced Security [02];
+    QRadar [zLEGACY] (SIEM, SOAR, EDR/ReaQta, Log Insights, UEBA, QNI, QIF, QVM, QRM, MDR)
+    NOTE: QRadar is LEGACY — IBM divested QRadar SaaS to Palo Alto. Do NOT pitch net-new QRadar/SIEM.
+
+03.1 INFRASTRUCTURE [03_1-Infra]
+  03.1.1 Hybrid Cloud Platform [01-Hbd_Cl_Ptfm]: Red Hat OpenShift [01] (Container Platform,
+    on IBM Cloud, Dedicated, Virtualization, ROSA on AWS); IBM Cloud [02] (Cloud Private, VPC,
+    Bare Metal, Kubernetes Service, Satellite, Internet Services, for Financial Services,
+    Confidential Computing, Direct Link, Transit Gateway, Load Balancer, Code Engine, Schematics);
+    RHEL [03] (for SAP, for Power, for Z/LinuxONE); IBM Cloud Paks [04] (CP4D, CP4BA, CP4I,
+    CP4Apps, CP4NA, CP4AIOps); Cloud Foundry [05-LEGACY];
+    Vulnerability Assessment NIST: Secure and Resilient Assessment (SaRA) [01-SaRa]
+  03.1.2 Storage [02-Storage]: Storage Software/Spectrum [01] (Scale, Protect, Virtualize,
+    Defender, Fusion, Ceph, Storage Insights); Storage Systems [02] (FlashSystem NVMe, DS8000,
+    DS8900F, ESS, Tape/TS4500/Diamondback); Cloud Storage [03] (Object, Block, File, Backup)
+  03.1.3 Power Systems [03-Pwr_Sys]: Power Hardware [01] (Scale-out S1012/S1122/S1124,
+    Enterprise E1150/E1180, Legacy Power10/9); Power Software & Virtualization [02] (AIX, IBM i,
+    PowerVM, PowerVC, PowerHA, VIOS, HMC, PowerSC); Power Cloud [03] (PowerVS, PowerVS Private);
+    Power Services [04] (Power Expert Care, Capacity on Demand, Migration Assessment)
+  03.1.4 Network & Edge [04-Ntwk_Edge]: Edge Computing (Edge App Manager, Cloud Satellite);
+    Cloud Networking (Internet Services, Direct Link, Transit Gateway)
+
+03.2 TECHNOLOGY LIFECYCLE SERVICES (TLS) [03_2-TLS]
+  03.2.1 Hardware Maintenance & Support: Expert Care; HW Maintenance; HW Service Extensions;
+    Multivendor HW/SW Support; Multivendor IT; Proactive Support for IBM Z; Client Services Mgmt
+  03.2.2 Asset Lifecycle Services: GARS (Global Asset Recovery); ITAD (IT Asset Disposition);
+    Product Take Back Programs
+  03.2.3 Professional Services for Infrastructure: Project Services (Technicians)
+  03.2.4 Resale: End-User Computing; Data Center & Enterprise Infra; Networking Equipment;
+    Mobility & Rugged Devices; Peripherals & Accessories
+
+04 TECHNOLOGY EXPERT LABS (TEL) [04-TEL]
+  04.1 Domain Expert Labs: Expert Labs for Data & AI (Expertise Connect, ADVISE);
+    Expert Labs for Automation (incl. IBM FinOps Consulting, ADVISE for wx Orchestrate/Concert);
+    Expert Labs for Security (Expertise Connect); Expert Labs for Infrastructure & Cloud;
+    Expert Labs for Z (Z/LinuxONE, GDPS)
+  04.2 Client Engineering (CE) & Co-Creation: CE Engagements; Prototypes/Pilots/MVPs;
+    TDA Workshops; Co-Creation Workshops (Garage, IG Experience)
+  04.3 Sales Value Engineering (SVE)
+  04.4 Industry-Anchored Services
+04.2 IBM MANAGED SERVICES & OUTSOURCING
+
+05 IBMZ [05-IBMz]
+  05.1 Hardware: zSystems mainframes (z17, z16, Legacy-z); IBM LinuxONE (Emperor 5, LinuxONE 4,
+    Secure Execution, RHEL for Z/LinuxONE)
+  05.2 Z Software & Middleware: zOS & Virtualization (z/OS, z/OS Connect, z/VM, z/VSE, z/TPF);
+    Transaction Processing (CICS, IMS-TM); Database (Db2 for z/OS, Db2 Tools, IMS-DB);
+    Integration & Messaging (MQ for z/OS); Systems Mgmt & Ops (OMEGAMON, NetView, System Automation,
+    Workload Scheduler); Dev Tools (Dev for z/OS, Debug, ADFz, ADDI, Fault Analyzer, File Manager)
+  05.3 Z Modernization: App Modernization (wx Assistant for z, Z Cloud Modernization);
+    Dev/Test (IBM Wazi: aaS, Image Build, Dev Spaces, VS Code, Eclipse); DevSecOps (DBB, Wazi Deploy,
+    Z Open Editor/Debug, Code Coverage, Zowe Explorer); API/Integration Modernization;
+    Data/Event Modernization (Data Gate for wx/CP4D/Confluent)
+  05.4 Z Security & Compliance: IA & Admin (zSecure suite, Z MFA); Encryption & Key Mgmt
+    (Unified Key Orchestrator, Guardium Key Lifecycle Manager); Threat Detection & Monitoring;
+    Compliance Automation & Reporting; Cyber Resilience (IBM Z Cyber Vault)

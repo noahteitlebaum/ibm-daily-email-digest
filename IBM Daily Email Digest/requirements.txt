@@ -1,0 +1,11 @@
+# IBM Daily Email Digest — Python dependencies
+# Install with:  pip install -r requirements.txt
+
+feedparser==6.0.11        # RSS/Atom parsing (Google News feeds)
+requests==2.32.3          # HTTP for LLM client + feed fetching
+python-dotenv==1.0.1      # Load secrets from .env
+PyYAML==6.0.2             # Config files (keywords.yaml / settings.yaml)
+python-pptx==1.0.2        # IBM-branded PowerPoint deck generation
+Jinja2==3.1.4             # HTML email templating
+python-dateutil==2.9.0    # Robust date parsing for feed entries
+pywin32==306; sys_platform == "win32"   # Outlook desktop send (Windows only)

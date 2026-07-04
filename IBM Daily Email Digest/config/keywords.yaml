@@ -1,0 +1,137 @@
+# ============================================================================
+# Daily Digest — Account keyword definitions
+# Source: "DAILY DIGEST KEYWORDS — JD Irving | Irving Oil | Government of NB"
+#
+# How it is used:
+#   - "entity_names" + "subsidiaries" are the PRIMARY query terms -> become
+#     Google News RSS searches (one feed per term).
+#   - "people" + "tech_signals" + "industry_terms" are SECONDARY filter/scoring
+#     terms matched against each article's title + summary to flag relevance.
+#   - "cautions" drive guardrail logic in src/filter.py.
+# ============================================================================
+
+accounts:
+
+  # --------------------------------------------------------------------------
+  JDI:
+    label: "J.D. Irving, Limited"
+    entity_names:
+      - "J.D. Irving"
+      - "JD Irving"
+      - "J. D. Irving"
+      - "Irving Limited"
+    subsidiaries:
+      - "Kent Building Supplies"
+      - "Cavendish Farms"
+      - "Midland Transport"
+      - "Irving Woodlands"
+      - "Irving Consumer Products"
+      - "Irving Tissue"
+      - "Brunswick News"
+      - "Atlantic Packaging"
+    people:
+      - "Brad Zacharias"
+      - "Eddie Hacala"
+      - "Jim Irving"
+      - "Jamie Irving"
+      - "Andrew Fisher"
+    tech_signals:
+      - "JD Irving digital"
+      - "JD Irving technology"
+      - "JD Irving cloud"
+      - "JD Irving cybersecurity"
+      - "JD Irving automation"
+      - "Kent D365"
+      - "Irving ServiceNow"
+    industry_terms:
+      - "Irving forestry"
+      - "Irving pulp"
+      - "Irving logistics"
+      - "Irving expansion"
+      - "Irving consumer products"
+
+  # --------------------------------------------------------------------------
+  IOL:
+    label: "Irving Oil"
+    entity_names:
+      - "Irving Oil"
+      - "Saint John Refinery"
+      - "Canaport"
+    subsidiaries: []
+    people:
+      - "Kelley Greer White"
+      - "Jeff Matthews"
+      - "Scott Hastings"
+      - "Peter McNay"
+      - "Jennifer Beach"
+    tech_signals:
+      - "Irving Oil digital"
+      - "Irving Oil technology"
+      - "Irving Oil SAP"
+      - "Irving Oil cybersecurity"
+      - "Irving Oil OT"
+      - "Irving Oil IT"
+      - "Irving Oil cloud"
+    industry_terms:
+      - "Irving Oil refinery"
+      - "Irving Oil hydrogen"
+      - "Irving green hydrogen"
+      - "Irving Oil renewable"
+      - "Irving Oil sustainability"
+      - "Irving Oil ESG"
+      - "Irving Oil FCCU"
+      - "Irving Oil expansion"
+
+  # --------------------------------------------------------------------------
+  GNB:
+    label: "Government of New Brunswick"
+    entity_names:
+      - "Government of New Brunswick"
+      - "Province of New Brunswick"
+      - "Service New Brunswick"
+      - "Digital New Brunswick"
+      - "New Brunswick OCIO"
+      - "Opportunities New Brunswick"
+    subsidiaries: []
+    people:
+      - "Danny Keizer"
+      - "Susan Holt"
+      - "Horizon Health Network"
+      - "Vitalite Health Network"
+    tech_signals:
+      - "New Brunswick digital government"
+      - "New Brunswick IT modernization"
+      - "New Brunswick cloud"
+      - "New Brunswick cybersecurity"
+      - "New Brunswick AI"
+      - "New Brunswick RFP technology"
+      - "New Brunswick procurement IT"
+      - "New Brunswick health IT"
+      - "New Brunswick clinical information system"
+      - "EAPO New Brunswick"
+    industry_terms:
+      # Cybersecurity ecosystem
+      - "UNB cybersecurity"
+      - "Canadian Institute for Cybersecurity"
+      - "Cyber Attribution Data Centre"
+      - "CADC New Brunswick"
+      - "Thales Fredericton"
+      # Budget / fiscal
+      - "New Brunswick budget"
+      - "New Brunswick capital spending"
+      - "New Brunswick Treasury Board"
+      - "Susan Holt budget"
+
+# ============================================================================
+# Guardrails / cautions (see USAGE NOTES in source + filter.py logic)
+# ============================================================================
+cautions:
+  # Reject any article whose only Irving match is the bare word "Irving"
+  # with no qualifier -> avoids conflating JDI and Irving Oil.
+  require_irving_qualifier: true
+  # Terms that, if matched, cause the article to be DROPPED (out of scope).
+  exclude_terms:
+    - "Irving Shipbuilding"
+    - "Halifax Shipyard"
+  # GNB returns far higher volume; cap how many GNB items reach the digest.
+  gnb_max_items: 8

@@ -1,0 +1,18 @@
+# IBM Daily Email Digest — IBM Cloud Functions dependencies
+# Install with:  pip install -r requirements-ibm.txt
+
+# IBM Cloud specific packages
+ibm-cos-sdk>=2.13.0       # IBM Cloud Object Storage (state persistence)
+sendgrid>=6.11.0          # SendGrid email delivery
+
+# Base requirements (from requirements.txt)
+feedparser==6.0.11        # RSS/Atom parsing (Google News feeds)
+requests==2.32.3          # HTTP for LLM client + feed fetching
+python-dotenv==1.0.1      # Load secrets from .env (local testing)
+PyYAML==6.0.2             # Config files (keywords.yaml / settings.yaml)
+Jinja2==3.1.4             # HTML email templating
+python-dateutil==2.9.0    # Robust date parsing for feed entries
+
+# Note: python-pptx excluded (deck generation disabled in cloud)
+# Note: pywin32 excluded (Windows-only, not needed in cloud)
+# Note: boto3/botocore excluded (AWS-specific, not needed for IBM Cloud)
