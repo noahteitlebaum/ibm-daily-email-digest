@@ -1,0 +1,55 @@
+# ============================================================================
+# IBM Daily Email Digest — .gitignore
+# ============================================================================
+
+# ----- Secrets: NEVER commit -------------------------------------------------
+.env
+*.env
+!.env.example
+digest-key.json
+*apikey*.json
+*api-key*.json
+*credentials*.json
+*.pem
+*.key
+
+# ----- Python ----------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ----- Virtual environments --------------------------------------------------
+.venv/
+venv/
+env/
+ENV/
+
+# ----- Generated output (digests, decks, logs, seen-store) -------------------
+output/
+*.log
+
+# ----- Build / deployment artifacts (regenerable) ----------------------------
+*.zip
+build/
+dist/
+
+# ----- Tooling scratch -------------------------------------------------------
+.bob/
+
+# ----- OS junk ---------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ----- Editors / IDEs --------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*~
+
+grounding/
+LLM-Grounding-Client_News_to_IBM_Opportunity_Insights.md

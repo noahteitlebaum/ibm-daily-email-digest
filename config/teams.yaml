@@ -1,0 +1,49 @@
+# ============================================================================
+# Teams — each gets its OWN email with only its clients' news.
+# Recipients are listed here directly. They can still be overridden per team by
+# a RECIPIENTS_<ID> env var / GitHub secret (e.g. RECIPIENTS_NB_IRVING); if that
+# env var is unset, the list below is used.
+# "accounts" are keys defined in config/keywords.yaml.
+# NOTE: this file is committed, so these addresses are visible in the repo.
+# ============================================================================
+
+teams:
+  - id: nb_irving
+    name: "NB / Irving (Horizon Atlantic)"
+    accounts: ["GNB", "IOL", "JDI"]
+    recipients:
+      - "Michael.Brooker@ibm.com"
+      - "tonylodge@ca.ibm.com"
+      - "noah.teitlebaum@ibm.com"
+
+  - id: lcbo_loblaws
+    name: "LCBO / Loblaws"
+    accounts: ["LCBO", "LOBLAWS"]
+    recipients:
+      - "Bala.Thiagarajan@ibm.com"
+      - "Mona.Mehrotra@ibm.com"
+      - "noah.teitlebaum@ibm.com"
+
+  - id: nl_ns_emera
+    name: "Newfoundland & Labrador / Nova Scotia / Emera"
+    accounts: ["GNL", "GNS", "EMERA"]
+    recipients:
+      - "KevinCritch@ibm.com"
+      - "tonylodge@ca.ibm.com"
+      - "noah.teitlebaum@ibm.com"
+
+  - id: interac_symcor_payments
+    name: "Interac / Symcor / Payments Canada"
+    accounts: ["INTERAC", "SYMCOR", "PAYMENTS_CANADA"]
+    recipients:
+      - "Bruce.Maxwell@ibm.com"
+      - "jzagar@ca.ibm.com"
+      - "noah.teitlebaum@ibm.com"
+
+  - id: gfl_cbs_gtaa
+    name: "GFL / Canadian Blood Services / GTAA"
+    accounts: ["GFL", "CBS", "GTAA"]
+    recipients:
+      - "smurphy@ca.ibm.com"
+      - "Atin.Chandel@ibm.com"
+      - "noah.teitlebaum@ibm.com"

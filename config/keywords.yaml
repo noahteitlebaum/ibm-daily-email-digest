@@ -1,0 +1,261 @@
+# ============================================================================
+# Daily Digest — Account keyword definitions
+# Source: "DAILY DIGEST KEYWORDS — JD Irving | Irving Oil | Government of NB"
+#
+# How it is used:
+#   - "entity_names" + "subsidiaries" are the PRIMARY query terms -> become
+#     Google News RSS searches (one feed per term).
+#   - "people" + "tech_signals" + "industry_terms" are SECONDARY filter/scoring
+#     terms matched against each article's title + summary to flag relevance.
+#   - "cautions" drive guardrail logic in src/filter.py.
+# ============================================================================
+
+accounts:
+
+  # --------------------------------------------------------------------------
+  JDI:
+    label: "J.D. Irving, Limited"
+    grounding_file: "grounding/Client_News_to_IBM_Opportunity_Insights.md"
+    entity_names:
+      - "J.D. Irving"
+      - "JD Irving"
+      - "J. D. Irving"
+      - "Irving Limited"
+    subsidiaries:
+      - "Kent Building Supplies"
+      - "Cavendish Farms"
+      - "Midland Transport"
+      - "Irving Woodlands"
+      - "Irving Consumer Products"
+      - "Irving Tissue"
+      - "Brunswick News"
+      - "Atlantic Packaging"
+    people:
+      - "Brad Zacharias"
+      - "Eddie Hacala"
+      - "Jim Irving"
+      - "Jamie Irving"
+      - "Andrew Fisher"
+    tech_signals:
+      - "JD Irving digital"
+      - "JD Irving technology"
+      - "JD Irving cloud"
+      - "JD Irving cybersecurity"
+      - "JD Irving automation"
+      - "Kent D365"
+      - "Irving ServiceNow"
+    industry_terms:
+      - "Irving forestry"
+      - "Irving pulp"
+      - "Irving logistics"
+      - "Irving expansion"
+      - "Irving consumer products"
+
+  # --------------------------------------------------------------------------
+  IOL:
+    label: "Irving Oil"
+    grounding_file: "grounding/Client_News_to_IBM_Opportunity_Insights.md"
+    entity_names:
+      - "Irving Oil"
+      - "Saint John Refinery"
+      - "Canaport"
+    subsidiaries: []
+    people:
+      - "Kelley Greer White"
+      - "Jeff Matthews"
+      - "Scott Hastings"
+      - "Peter McNay"
+      - "Jennifer Beach"
+    tech_signals:
+      - "Irving Oil digital"
+      - "Irving Oil technology"
+      - "Irving Oil SAP"
+      - "Irving Oil cybersecurity"
+      - "Irving Oil OT"
+      - "Irving Oil IT"
+      - "Irving Oil cloud"
+    industry_terms:
+      - "Irving Oil refinery"
+      - "Irving Oil hydrogen"
+      - "Irving green hydrogen"
+      - "Irving Oil renewable"
+      - "Irving Oil sustainability"
+      - "Irving Oil ESG"
+      - "Irving Oil FCCU"
+      - "Irving Oil expansion"
+
+  # --------------------------------------------------------------------------
+  GNB:
+    label: "Government of New Brunswick"
+    grounding_file: "grounding/Client_News_to_IBM_Opportunity_Insights.md"
+    entity_names:
+      - "Government of New Brunswick"
+      - "Province of New Brunswick"
+      - "Service New Brunswick"
+      - "Digital New Brunswick"
+      - "New Brunswick OCIO"
+      - "Opportunities New Brunswick"
+    subsidiaries: []
+    people:
+      - "Danny Keizer"
+      - "Susan Holt"
+      - "Horizon Health Network"
+      - "Vitalite Health Network"
+    tech_signals:
+      - "New Brunswick digital government"
+      - "New Brunswick IT modernization"
+      - "New Brunswick cloud"
+      - "New Brunswick cybersecurity"
+      - "New Brunswick AI"
+      - "New Brunswick RFP technology"
+      - "New Brunswick procurement IT"
+      - "New Brunswick health IT"
+      - "New Brunswick clinical information system"
+      - "EAPO New Brunswick"
+    industry_terms:
+      # Cybersecurity ecosystem
+      - "UNB cybersecurity"
+      - "Canadian Institute for Cybersecurity"
+      - "Cyber Attribution Data Centre"
+      - "CADC New Brunswick"
+      - "Thales Fredericton"
+      # Budget / fiscal
+      - "New Brunswick budget"
+      - "New Brunswick capital spending"
+      - "New Brunswick Treasury Board"
+      - "Susan Holt budget"
+
+  # --------------------------------------------------------------------------
+  LCBO:
+    label: "LCBO"
+    entity_names: ["LCBO", "Liquor Control Board of Ontario"]
+    subsidiaries: []
+    people: []
+    tech_signals: ["LCBO digital", "LCBO technology", "LCBO cloud", "LCBO ecommerce"]
+    industry_terms: ["LCBO modernization", "LCBO supply chain", "LCBO retail"]
+
+  # --------------------------------------------------------------------------
+  LOBLAWS:
+    label: "Loblaw Companies"
+    entity_names: ["Loblaw", "Loblaws", "Loblaw Companies"]
+    subsidiaries:
+      - "Shoppers Drug Mart"
+      - "Real Canadian Superstore"
+      - "No Frills"
+      - "PC Optimum"
+      - "Provigo"
+      - "Joe Fresh"
+    people: []
+    tech_signals: ["Loblaw digital", "Loblaw technology", "Loblaw cloud", "Loblaw AI"]
+    industry_terms: ["Loblaw supply chain", "Loblaw loyalty", "Loblaw expansion"]
+
+  # --------------------------------------------------------------------------
+  GNL:
+    label: "Government of Newfoundland and Labrador"
+    entity_names:
+      - "Government of Newfoundland and Labrador"
+      - "Province of Newfoundland and Labrador"
+      - "Newfoundland and Labrador government"
+    subsidiaries:
+      - "Newfoundland and Labrador Hydro"
+      - "Nalcor Energy"
+      - "Digital Government and Service NL"
+    people: []
+    tech_signals: ["Newfoundland digital government", "Newfoundland IT modernization", "Newfoundland cybersecurity"]
+    industry_terms: ["Newfoundland budget", "Newfoundland procurement"]
+
+  # --------------------------------------------------------------------------
+  GNS:
+    label: "Government of Nova Scotia"
+    entity_names:
+      - "Government of Nova Scotia"
+      - "Province of Nova Scotia"
+      - "Nova Scotia government"
+    subsidiaries:
+      - "Nova Scotia Health"
+      - "Service Nova Scotia"
+      - "Build Nova Scotia"
+    people: []
+    tech_signals: ["Nova Scotia digital government", "Nova Scotia IT modernization", "Nova Scotia cybersecurity"]
+    industry_terms: ["Nova Scotia budget", "Nova Scotia procurement"]
+
+  # --------------------------------------------------------------------------
+  EMERA:
+    label: "Emera"
+    entity_names: ["Emera"]
+    subsidiaries:
+      - "Nova Scotia Power"
+      - "Tampa Electric"
+      - "Peoples Gas"
+      - "Emera Energy"
+    people: []
+    tech_signals: ["Emera digital", "Emera technology", "Emera grid", "Emera cybersecurity"]
+    industry_terms: ["Emera capital", "Emera renewable", "Emera investment"]
+
+  # --------------------------------------------------------------------------
+  INTERAC:
+    label: "Interac"
+    entity_names: ["Interac"]
+    subsidiaries: ["Interac e-Transfer"]
+    people: []
+    tech_signals: ["Interac digital", "Interac technology", "Interac cloud", "Interac fraud"]
+    industry_terms: ["Interac payments", "Interac verification", "Interac partnership"]
+
+  # --------------------------------------------------------------------------
+  SYMCOR:
+    label: "Symcor"
+    entity_names: ["Symcor"]
+    subsidiaries: []
+    people: []
+    tech_signals: ["Symcor digital", "Symcor technology", "Symcor cloud", "Symcor AI"]
+    industry_terms: ["Symcor payments", "Symcor fraud", "Symcor data"]
+
+  # --------------------------------------------------------------------------
+  PAYMENTS_CANADA:
+    label: "Payments Canada"
+    entity_names: ["Payments Canada"]
+    subsidiaries: ["Lynx", "Real-Time Rail"]
+    people: []
+    tech_signals: ["Payments Canada modernization", "Payments Canada technology", "Payments Canada cloud"]
+    industry_terms: ["Payments Canada RTR", "Payments Canada Lynx", "Payments Canada ISO 20022"]
+
+  # --------------------------------------------------------------------------
+  GFL:
+    label: "GFL Environmental"
+    entity_names: ["GFL Environmental", "GFL"]
+    subsidiaries: []
+    people: []
+    tech_signals: ["GFL digital", "GFL technology", "GFL fleet", "GFL cloud"]
+    industry_terms: ["GFL acquisition", "GFL expansion", "GFL waste"]
+
+  # --------------------------------------------------------------------------
+  CBS:
+    label: "Canadian Blood Services"
+    entity_names: ["Canadian Blood Services"]
+    subsidiaries: []
+    people: []
+    tech_signals: ["Canadian Blood Services digital", "Canadian Blood Services technology", "Canadian Blood Services cloud", "Canadian Blood Services data"]
+    industry_terms: ["Canadian Blood Services modernization", "Canadian Blood Services supply"]
+
+  # --------------------------------------------------------------------------
+  GTAA:
+    label: "Greater Toronto Airports Authority"
+    entity_names: ["Greater Toronto Airports Authority", "Toronto Pearson", "Pearson Airport"]
+    subsidiaries: []
+    people: []
+    tech_signals: ["Pearson digital", "Pearson technology", "GTAA cloud", "Pearson cybersecurity"]
+    industry_terms: ["Pearson expansion", "Pearson capital", "Toronto Pearson investment"]
+
+# ============================================================================
+# Guardrails / cautions (see USAGE NOTES in source + filter.py logic)
+# ============================================================================
+cautions:
+  # Reject any article whose only Irving match is the bare word "Irving"
+  # with no qualifier -> avoids conflating JDI and Irving Oil.
+  require_irving_qualifier: true
+  # Terms that, if matched, cause the article to be DROPPED (out of scope).
+  exclude_terms:
+    - "Irving Shipbuilding"
+    - "Halifax Shipyard"
+  # GNB returns far higher volume; cap how many GNB items reach the digest.
+  gnb_max_items: 8

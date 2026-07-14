@@ -1,0 +1,116 @@
+# ============================================================================
+# Daily Digest — general settings
+# ============================================================================
+
+email:
+  # "outlook" = send through your signed-in Outlook desktop app (from your
+  #             @ibm.com address; works for team distribution, no IT ticket).
+  # "smtp"    = send via SMTP (Gmail/personal accounts).
+  # (.env EMAIL_METHOD overrides this if set.)
+  method: "outlook"
+  # Only send when something is NEW since the last run (a new insight or a new
+  # radar item). Essential for hourly runs so the team is not spammed with
+  # repeats. Set false to send on every run regardless.
+  # TEMPORARILY false for hourly delivery testing — set back to true before
+  # pointing EMAIL_TO at the team / switching to daily.
+  only_when_new: false
+
+feeds:
+  # Only keep articles published within this many hours.
+  # 720 = past 30 days, so opportunity insights cover anything from the last month.
+  max_age_hours: 720
+  language: "en"
+  country: "CA"
+  # Per-query result cap before filtering (Google News returns ~100 max).
+  max_items_per_query: 25
+  # Polite pause (seconds) between feed requests to avoid rate limiting.
+  request_delay_seconds: 1.0
+  request_timeout_seconds: 20
+
+filtering:
+  # An article must reach this score to be considered "relevant".
+  min_relevance_score: 2
+  weights:
+    entity_name: 3          # core account name in title/summary
+    subsidiary: 3
+    person: 4               # named exec = strong signal (fills MEDDPICC EB/Champion)
+    tech_signal: 4          # digital/cloud/cyber/AI/SAP terms
+    industry_term: 2
+    trigger_event: 5        # capex, M&A, renewal, cyber incident, etc.
+    title_bonus: 2          # extra if the match is in the title, not just summary
+
+  # Trigger-event phrases (the "compelling reason to act"). High value.
+  # See grounding doc §8.1. Matched case-insensitively in title+summary.
+  trigger_events:
+    capex:        ["capital", "capex", "investment", "expansion", "new plant",
+                   "facility", "build", "construction", "billion", "million",
+                   "upgrade", "revamp", "turnaround", "modernization"]
+    leadership:   ["appoint", "names", "new ceo", "new cio", "new cto",
+                   "new ciso", "chief information", "chief technology",
+                   "chief digital", "vp of", "hires", "joins as"]
+    cyber:        ["cyber", "ransomware", "breach", "hack", "data leak",
+                   "vulnerability", "security incident"]
+    ma:           ["acquire", "acquisition", "merger", "divest", "restructur",
+                   "joint venture", "partnership"]
+    procurement:  ["rfp", "rfi", "tender", "procurement", "contract award",
+                   "renewal", "budget", "spending", "fiscal"]
+    ai_data:      [" ai ", "artificial intelligence", "machine learning",
+                   "data platform", "analytics", "cloud migration", "automation"]
+
+# ----------------------------------------------------------------------------
+# IBM offering map: trigger/theme -> offering + likely buyer + CEM stage.
+# This is a lightweight hint table; the authoritative reasoning lives in the
+# grounding doc that is fed to the LLM. Used to pre-tag items in the digest.
+# ----------------------------------------------------------------------------
+ibm_offering_hints:
+  capex:       "Maximo Application Suite (MAS) + watsonx reliability; IBM Power/Storage"
+  cyber:       "Security & Resilience (SaRA assessment, Guardium, Storage Defender, Verify, Concert) — NOT SIEM/QRadar"
+  ma:          "webMethods Hybrid Integration (IWHI) — connect heterogeneous systems"
+  ai_data:     "watsonx / watsonx.data / watsonx Orchestrate; Db2; Red Hat OpenShift"
+  procurement: "ELA / multi-year renewal structuring; Passport Advantage"
+  leadership:  "Relationship move — updates MEDDPICC Economic Buyer / Champion"
+
+summarization:
+  # Output sections required for each insight (per user spec).
+  sections:
+    - "TLDR"
+    - "Three Whys"        # Why anything? Why now? Why IBM?
+    - "CEM Stage"         # which Client Engagement Model stage this implies
+    - "MEDDPICC"          # what's qualified vs. still open
+  # Max insights to expand fully in the email (rest listed in an appendix).
+  max_full_insights: 10
+  # Path to the grounding knowledge base (relative to project root).
+  grounding_file: "grounding/Client_News_to_IBM_Opportunity_Insights.md"
+  # Canonical IBM product taxonomy — lets the LLM map each opportunity to a
+  # real IBM product, platform, and folder code.
+  product_hierarchy_file: "grounding/IBM_Product_Hierarchy.txt"
+  # Writing-style spec applied to the digest copy. Set to "" to disable
+  # (reverts to neutral professional sales-intelligence tone).
+  advisor_style_file: "ADVISOR_INSTRUCTIONS.md"
+
+decks:
+  enabled: true
+  # Generate a deck only for insights at/above this confidence.
+  min_confidence: "medium"     # one of: low | medium | high
+  # Max decks to auto-generate per run (avoids flooding output/).
+  max_decks: 3
+  output_subdir: "decks"
+
+# ----------------------------------------------------------------------------
+# Cross-run state — "new since last run" tracking.
+# ----------------------------------------------------------------------------
+state:
+  seen_file: "output/seen_articles.json"
+  # Forget a remembered article after this many days (lets stale links clear).
+  # Keep > the 30-day feed window so in-window items aren't re-flagged as new.
+  seen_retention_days: 45
+  # If there are NEW relevant items, lead the digest with only those.
+  # If there are none, fall back to the week's top recurring items so the
+  # digest is never empty. Set false to always show everything in the window.
+  prefer_new: true
+
+output:
+  base_dir: "output"
+  keep_runs: 30                # prune digests/decks older than N days
+  save_html: true
+  save_json: true              # machine-readable record of each run
