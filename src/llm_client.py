@@ -50,7 +50,12 @@ class LLMClient:
         # >>> ICA WIRE FORMAT (auth) — adjust if ICA expects a different header.
         headers = {"Content-Type": "application/json"}
         scheme = self.auth_scheme.lower()
-        if scheme == "bearer":
+        if scheme == "icakey":
+            # ICA (IBM Consulting Advantage) gateway: key travels in an "icaKey"
+            # header, NOT an Authorization: Bearer header. Confirmed by the
+            # gateway responding {"error":"Invalid icaKey"} when it's absent.
+            headers["icaKey"] = self.api_key or ""
+        elif scheme == "bearer":
             headers["Authorization"] = f"Bearer {self.api_key}"
         elif scheme == "zenapikey":
             headers["Authorization"] = f"ZenApiKey {self.api_key}"
@@ -82,12 +87,19 @@ class LLMClient:
             "max_tokens": max_tokens,
         }
 
+        resp = None
         try:
             resp = requests.post(url, headers=self._headers(),
                                  data=json.dumps(payload), timeout=self.timeout)
             resp.raise_for_status()
         except requests.RequestException as exc:
-            raise LLMClientError(f"LLM request failed: {exc}") from exc
+            detail = ""
+            if resp is not None:
+                try:
+                    detail = f" | ICA said: {resp.text[:600]}"
+                except Exception:  # noqa: BLE001
+                    pass
+            raise LLMClientError(f"LLM request failed: {exc}{detail}") from exc
 
         data = resp.json()
         # >>> ICA WIRE FORMAT (response parsing) — OpenAI-compatible default.

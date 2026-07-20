@@ -18,8 +18,10 @@ from dotenv import load_dotenv
 ROOT = Path(__file__).resolve().parent.parent
 CONFIG_DIR = ROOT / "config"
 
-# Load .env once on import (no error if missing — env vars may be set elsewhere).
-load_dotenv(ROOT / ".env")
+# Load .env once on import (no error if missing). override=True so the .env
+# values always win over any stale shell/system environment variable (e.g. an
+# old ICA_API_KEY left over from earlier setup), which otherwise silently wins.
+load_dotenv(ROOT / ".env", override=True)
 
 
 @lru_cache(maxsize=1)

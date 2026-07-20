@@ -8,6 +8,7 @@ table-based layout only (no external CSS/JS, no flexbox dependence).
 from __future__ import annotations
 
 import html
+import urllib.parse
 from datetime import datetime
 
 # IBM Carbon palette
@@ -23,8 +24,26 @@ AMBER = "#8a6d00"
 RED = "#da1e28"
 
 ACCOUNT_LABELS = {"JDI": "J.D. Irving", "IOL": "Irving Oil",
-                  "GNB": "Government of New Brunswick"}
+                  "GNB": "Government of New Brunswick",
+                  "LCBO": "LCBO", "LOBLAWS": "Loblaw",
+                  "GNL": "Gov. of Newfoundland & Labrador",
+                  "GNS": "Gov. of Nova Scotia", "EMERA": "Emera",
+                  "INTERAC": "Interac", "SYMCOR": "Symcor",
+                  "PAYMENTS_CANADA": "Payments Canada",
+                  "GFL": "GFL Environmental", "CBS": "Canadian Blood Services",
+                  "GTAA": "Greater Toronto Airports Authority"}
 ACCOUNT_COLORS = {"JDI": "#0F62FE", "IOL": "#007d79", "GNB": "#8a3ffc"}
+
+# Full legal-ish company names used to build accurate LinkedIn people searches.
+COMPANY_NAMES = {
+    "JDI": "J.D. Irving", "IOL": "Irving Oil",
+    "GNB": "Government of New Brunswick", "LCBO": "LCBO",
+    "LOBLAWS": "Loblaw Companies", "GNL": "Government of Newfoundland and Labrador",
+    "GNS": "Government of Nova Scotia", "EMERA": "Emera",
+    "INTERAC": "Interac", "SYMCOR": "Symcor", "PAYMENTS_CANADA": "Payments Canada",
+    "GFL": "GFL Environmental", "CBS": "Canadian Blood Services",
+    "GTAA": "Greater Toronto Airports Authority",
+}
 
 # Trigger type -> (display label, colour)
 TRIGGER_STYLE = {
@@ -96,6 +115,138 @@ def _product_code_line(ins: dict) -> str:
         return ""
     return (f'<div style="font-size:11px;color:{IBM_GRAY};margin-top:2px;'
             f'font-family:\'IBM Plex Mono\',Consolas,monospace;">{_esc(code)}</div>')
+
+
+def _company_name(acct: str) -> str:
+    key = (acct or "").upper()
+    return COMPANY_NAMES.get(key) or ACCOUNT_LABELS.get(key, acct or "")
+
+
+def _contact_search_query(company: str, role: str) -> str:
+    """Build a LinkedIn people-search query. If the role text embeds a real name
+    from the brief ('... (named in brief: Jane Doe)'), search that name; else the
+    role/title. Company scopes it to the right org."""
+    r = role or ""
+    marker = "named in brief:"
+    low = r.lower()
+    if marker in low:
+        term = r[low.find(marker) + len(marker):].split(")")[0].strip() or r
+    else:
+        term = r
+    return f"{company} {term}".strip()
+
+
+def _linkedin_people_url(query: str) -> str:
+    return ("https://www.linkedin.com/search/results/people/?keywords="
+            + urllib.parse.quote(query))
+
+
+def _salesnav_url(query: str) -> str:
+    """Deep-link into LinkedIn Sales Navigator people search, seeded with the
+    company + name/role. Opens the filtered list inside Sales Nav in one click
+    (requires the user to be signed in to Sales Navigator)."""
+    return ("https://www.linkedin.com/sales/search/people?keywords="
+            + urllib.parse.quote(query))
+
+
+def _websearch_url(query: str) -> str:
+    """One-click Google web search built from the opportunity (company + role +
+    'LinkedIn'). Opens the results in the browser, where LinkedIn shows full
+    names — the reliable, click-through form of 'search this on the web'."""
+    return "https://www.google.com/search?q=" + urllib.parse.quote(f"{query} LinkedIn")
+
+
+def _linkedin_google_url(query: str) -> str:
+    """Find the person's LinkedIn profile via a Google search restricted to
+    LinkedIn profiles (site:linkedin.com/in). Lands in a Google search bar with
+    their profile as a top result and never hits a LinkedIn login wall."""
+    return "https://www.google.com/search?q=" + urllib.parse.quote(f"site:linkedin.com/in {query}")
+
+
+def _outreach_kit(ins: dict) -> str:
+    """Action block shown ONLY for medium/high-confidence opportunities:
+    who to contact (role + one-click LinkedIn search), when to reach out, and a
+    copy-ready sample email. Never renders for low confidence or radar/news items.
+    """
+    conf = (ins.get("confidence") or "").lower()
+    if conf not in ("medium", "high"):
+        return ""
+    contacts = ins.get("key_contacts") or []
+    timing = (ins.get("outreach_timing") or "").strip()
+    email = ins.get("sample_email") or {}
+    subject = (email.get("subject") or "").strip()
+    body = (email.get("body") or "").strip()
+    if not contacts and not timing and not subject and not body:
+        return ""
+
+    company = _company_name(ins.get("account", ""))
+
+    contact_rows = ""
+    for c in contacts:
+        role = (c.get("role") or "").strip()
+        if not role:
+            continue
+        why = (c.get("why") or "").strip()
+        query = _contact_search_query(company, role)
+        snav = _salesnav_url(query)
+        li = _linkedin_google_url(query)
+        web = _websearch_url(query)
+        sep = (f'<span style="color:{IBM_GRAY_LT};font-size:11px;">&nbsp;&middot;&nbsp;</span>')
+        contact_rows += (
+            f'<tr><td style="padding:5px 0;border-bottom:1px solid #eef2ff;">'
+            f'<div style="font-size:13px;font-weight:600;color:{IBM_DARK};">{_esc(role)}</div>'
+            f'<div style="margin-top:2px;">'
+            f'<a href="{_esc(snav)}" style="color:{IBM_BLUE_DK};text-decoration:none;font-size:11px;'
+            f'font-weight:700;white-space:nowrap;">&#128269; Open in Sales Navigator</a>'
+            f'{sep}'
+            f'<a href="{_esc(li)}" style="color:{IBM_BLUE};text-decoration:none;font-size:11px;'
+            f'font-weight:600;white-space:nowrap;">LinkedIn</a>'
+            f'{sep}'
+            f'<a href="{_esc(web)}" style="color:{IBM_BLUE};text-decoration:none;font-size:11px;'
+            f'font-weight:600;white-space:nowrap;">&#127760; Web search</a></div>'
+            + (f'<div style="font-size:11px;color:{IBM_GRAY};margin-top:1px;">{_esc(why)}</div>'
+               if why else "")
+            + '</td></tr>'
+        )
+    contacts_block = (
+        f'<div style="font-size:10px;font-weight:700;letter-spacing:1px;color:{IBM_GRAY};'
+        f'text-transform:uppercase;margin-bottom:2px;">Who to contact</div>'
+        f'<table role="presentation" width="100%" cellpadding="0" cellspacing="0">{contact_rows}</table>'
+    ) if contact_rows else ""
+
+    timing_block = (
+        f'<div style="font-size:10px;font-weight:700;letter-spacing:1px;color:{IBM_GRAY};'
+        f'text-transform:uppercase;margin:10px 0 2px;">When to reach out</div>'
+        f'<div style="font-size:13px;color:{IBM_DARK};">{_esc(timing)}</div>'
+    ) if timing else ""
+
+    email_block = ""
+    if subject or body:
+        body_html = _esc(body).replace("\n", "<br>")
+        email_block = (
+            f'<div style="font-size:10px;font-weight:700;letter-spacing:1px;color:{IBM_GRAY};'
+            f'text-transform:uppercase;margin:10px 0 4px;">Sample email</div>'
+            f'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" '
+            f'style="background:#fff;border:1px dashed #a6c8ff;border-radius:6px;"><tr>'
+            f'<td style="padding:10px 12px;">'
+            + (f'<div style="font-size:12px;color:{IBM_GRAY};margin-bottom:5px;">'
+               f'<b style="color:{IBM_DARK};">Subject:</b> {_esc(subject)}</div>' if subject else "")
+            + (f'<div style="font-size:13px;color:{IBM_DARK};line-height:1.55;">{body_html}</div>'
+               if body else "")
+            + '</td></tr></table>'
+            f'<div style="font-size:10px;color:{IBM_GRAY_LT};font-style:italic;margin-top:3px;">'
+            f'Draft — personalize the name and verify details before sending.</div>'
+        )
+
+    return (
+        f'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" '
+        f'style="background:#f7f9ff;border:1px solid #d0e2ff;border-radius:6px;margin:12px 0 4px;">'
+        f'<tr><td style="padding:12px 14px;">'
+        f'<div style="font-size:11px;font-weight:700;letter-spacing:1px;color:{IBM_BLUE_DK};'
+        f'text-transform:uppercase;margin-bottom:6px;">&#9993;&#65039; Outreach kit</div>'
+        f'{contacts_block}{timing_block}{email_block}'
+        f'</td></tr></table>'
+    )
 
 
 def _glance_row(idx: int, ins: dict) -> str:
@@ -231,6 +382,8 @@ def _insight_card(idx: int, ins: dict) -> str:
           {_source_line(ins)}
         </div>
 
+        {_outreach_kit(ins)}
+
       </td></tr>
     </table>"""
 
@@ -363,8 +516,34 @@ def render_text(digest: dict, status_note: str = "", radar: list | None = None) 
             f"    MEDDPICC qualified: {', '.join(medd.get('qualified', [])) or '—'}",
             f"    MEDDPICC open:      {', '.join(medd.get('open', [])) or '—'}",
             f"    Source: {ins.get('source_link')}",
-            "",
         ]
+        if (ins.get("confidence") or "").lower() in ("medium", "high"):
+            company = _company_name(ins.get("account", ""))
+            contacts = ins.get("key_contacts") or []
+            timing = (ins.get("outreach_timing") or "").strip()
+            email = ins.get("sample_email") or {}
+            subject = (email.get("subject") or "").strip()
+            body = (email.get("body") or "").strip()
+            if contacts or timing or subject or body:
+                lines.append("    --- OUTREACH KIT ---")
+            for c in contacts:
+                role = (c.get("role") or "").strip()
+                if not role:
+                    continue
+                query = _contact_search_query(company, role)
+                lines.append(f"    Contact: {role}")
+                if c.get("why"):
+                    lines.append(f"             {c.get('why')}")
+                lines.append(f"             Sales Navigator: {_salesnav_url(query)}")
+                lines.append(f"             LinkedIn: {_linkedin_google_url(query)}")
+                lines.append(f"             Web search: {_websearch_url(query)}")
+            if timing:
+                lines.append(f"    When: {timing}")
+            if subject:
+                lines.append(f"    Email subject: {subject}")
+            if body:
+                lines.append(f"    Email: {body}")
+        lines.append("")
     if radar:
         lines += ["", "ACCOUNT RADAR — in the news (past 30 days):"]
         for item in radar:

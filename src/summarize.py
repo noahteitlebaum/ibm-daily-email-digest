@@ -35,6 +35,10 @@ Hard guardrails (always apply):
 - Tie every insight to a CEM stage and a concrete next move.
 - Government of New Brunswick has no dedicated account brief: treat specific
   contacts/contracts as "to validate" and do not fabricate them.
+- CONTACTS: suggest the target ROLE / job title to approach (e.g. "VP Facilities
+  & Real Estate", "CISO", "CFO") so the rep can find the person on LinkedIn.
+  NEVER fabricate an individual's name, email address, or phone number. Only name
+  a specific person if that exact name appears in the grounding brief.
 """
 
 USER_TEMPLATE = """\
@@ -74,6 +78,15 @@ Return a SINGLE JSON object with EXACTLY this schema (no prose outside the JSON)
       "cem_stage": "<one of: Prepare | Engage | Qualify | Design | Propose |
                      Negotiate | Closing, optionally an arrow e.g. 'Engage -> Qualify'>",
       "next_move": "<one concrete next action: a meeting, discovery question, or proof>",
+      "key_contacts": [
+        {{"role": "<target job title / function to approach, e.g. 'VP Facilities' or 'CISO'; use a real person's NAME only if it appears in the grounding brief>",
+          "why": "<one line: why this role is the right entry point for this play>"}}
+      ],
+      "outreach_timing": "<when to reach out and why — urgency based, e.g. 'Within 48h while the announcement is fresh' or 'Next 1-2 weeks, ahead of FY budget lock'>",
+      "sample_email": {{
+        "subject": "<punchy subject line, no fluff>",
+        "body": "<3-5 sentence outreach email to that contact. Name the IBM offering. Reference the trigger / why-now. End with a low-friction ask (a 20-min call). Sign off '[Your name], IBM'. Do NOT invent stats, names, or figures.>"
+      }},
       "meddpicc": {{
         "qualified": ["<MEDDPICC fields this news helps fill, e.g. 'Champion'>"],
         "open": ["<MEDDPICC fields still unqualified>"]
@@ -91,6 +104,10 @@ Decision Process, Paper Process, Implicate Pain, Champion, Competition.
 Always map ibm_offering to the closest CANONICAL product in the IBM PRODUCT
 TAXONOMY and fill product_platform + product_code accordingly (never invent a
 product that isn't in the taxonomy).
+For key_contacts, give the ROLE to target (never invented names/emails/phones);
+the rep will find the person on LinkedIn. Fill key_contacts, outreach_timing, and
+sample_email ONLY for insights with confidence 'medium' or 'high'; for 'low'
+confidence set key_contacts to [] and outreach_timing / sample_email fields to "".
 Order insights most-to-least compelling. Output ONLY the JSON object.
 """
 
@@ -131,6 +148,15 @@ Return a SINGLE JSON object with this schema (no prose outside the JSON):
       "likely_buyer": "<named buyer/champion from the brief, or 'to validate'>",
       "cem_stage": "<Prepare | Engage | Qualify | Design | Propose | Negotiate | Closing>",
       "next_move": "<one concrete next action this week>",
+      "key_contacts": [
+        {{"role": "<target job title / function to approach; a real name only if it is in the brief>",
+          "why": "<one line: why this role is the right entry point>"}}
+      ],
+      "outreach_timing": "<when to reach out and why — urgency based>",
+      "sample_email": {{
+        "subject": "<punchy subject line>",
+        "body": "<3-5 sentence outreach email naming the IBM offering; low-friction ask; sign off '[Your name], IBM'>"
+      }},
       "meddpicc": {{"qualified": ["..."], "open": ["..."]}},
       "confidence": "<low | medium | high>",
       "fact_vs_inference": "<what is grounded in the brief vs inferred>",
@@ -167,6 +193,21 @@ STATIC_STANDING_PLAYS = {
             "likely_buyer": "Kelley Greer White (SVP IS&T); Scott Hastings (CFO)",
             "cem_stage": "Negotiate -> Closing",
             "next_move": "Engage Pellera on the Db2 upgrade scope before the 30 June renewal date.",
+            "key_contacts": [
+                {"role": "SVP Information Services & Technology (named in brief: Kelley Greer White)",
+                 "why": "Owns the IS&T renewal decision and the Db2/WebSphere estate."},
+                {"role": "CFO (named in brief: Scott Hastings)",
+                 "why": "Economic buyer for a multi-year commercial commitment."},
+            ],
+            "outreach_timing": "Now — the on-prem renewal closes 30 June 2026, so engage before scoping locks.",
+            "sample_email": {
+                "subject": "Db2 renewal — a multi-year path that removes the Extended Support penalty",
+                "body": "Hi [name], with the on-prem renewal coming up on June 30 I wanted to flag a way to "
+                        "turn it into a modernization win rather than a like-for-like renewal. A multi-year Db2 "
+                        "commitment plus an upgrade removes the Extended Support penalty and sets up a reliability "
+                        "story with watsonx. Could we grab 20 minutes next week to walk through the scope before "
+                        "the renewal date? [Your name], IBM",
+            },
             "meddpicc": {"qualified": ["Metrics", "Economic Buyer", "Paper Process"],
                          "open": ["Competition", "Decision Process"]},
             "confidence": "high",
@@ -189,6 +230,21 @@ STATIC_STANDING_PLAYS = {
             "likely_buyer": "Eddie Hacala (CTO); Mark Mosher (VP Pulp & Paper)",
             "cem_stage": "Engage -> Qualify",
             "next_move": "Book a Maximo MAS discovery tied to the active capex programs.",
+            "key_contacts": [
+                {"role": "CTO (named in brief: Eddie Hacala)",
+                 "why": "Owns the technology architecture across the capital programs."},
+                {"role": "VP Pulp & Paper (named in brief: Mark Mosher)",
+                 "why": "Operational sponsor for asset-heavy programs where Maximo lands."},
+            ],
+            "outreach_timing": "Next 1-2 weeks — engage before the capex program design phases lock in.",
+            "sample_email": {
+                "subject": "Maximo MAS for the active capital programs — before design locks",
+                "body": "Hi [name], as the Tissue/Pulp & Paper capital programs progress there's a window to "
+                        "standardize asset management and integration before designs are finalized. Maximo "
+                        "Application Suite drives predictive maintenance and asset lifecycle, and webMethods "
+                        "connects the new systems cleanly. Worth a 20-minute discovery to map it to the current "
+                        "programs? [Your name], IBM",
+            },
             "meddpicc": {"qualified": ["Implicate Pain", "Champion (likely)"],
                          "open": ["Metrics / Budget", "Economic Buyer", "Competition"]},
             "confidence": "medium",
@@ -285,7 +341,7 @@ def summarize(articles: list[Article], client: LLMClient,
     )
 
     try:
-        raw = client.complete(_system_prompt(), prompt, temperature=0.2, max_tokens=3500)
+        raw = client.complete(_system_prompt(), prompt, temperature=0.2, max_tokens=8000)
         parsed = _parse_json(raw)
     except Exception as exc:  # noqa: BLE001 - LLM/network errors must not crash the run
         print(f"   ! summarize LLM error ({exc}); treating as no insights.")
@@ -333,4 +389,58 @@ def _parse_json(raw: str) -> dict | None:
             data.setdefault("tldr", "")
             data.setdefault("insights", [])
             return data
-    return None
+    # Last resort: the response was likely truncated at the token limit mid-array.
+    # Salvage the tldr + every COMPLETE insight object, dropping the partial tail.
+    return _salvage_truncated(raw)
+
+
+def _salvage_truncated(raw: str) -> dict | None:
+    """Recover a usable digest from a response cut off mid-JSON (token limit).
+
+    Keeps the tldr and every fully-formed insight object inside the insights
+    array, discarding a final partial object. Returns None if nothing usable.
+    """
+    m = re.search(r'"insights"\s*:\s*\[', raw)
+    if not m:
+        return None
+    tm = re.search(r'"tldr"\s*:\s*"((?:[^"\\]|\\.)*)"', raw)
+    tldr = tm.group(1) if tm else ""
+    body = raw[m.end():]
+    objs: list[str] = []
+    depth = 0
+    start: int | None = None
+    in_str = esc = False
+    for i, ch in enumerate(body):
+        if in_str:
+            if esc:
+                esc = False
+            elif ch == "\\":
+                esc = True
+            elif ch == '"':
+                in_str = False
+            continue
+        if ch == '"':
+            in_str = True
+        elif ch == "{":
+            if depth == 0:
+                start = i
+            depth += 1
+        elif ch == "}":
+            depth -= 1
+            if depth == 0 and start is not None:
+                objs.append(body[start : i + 1])
+                start = None
+        elif ch == "]" and depth == 0:
+            break
+    insights: list[dict] = []
+    for o in objs:
+        try:
+            parsed = json.loads(o)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(parsed, dict):
+            insights.append(parsed)
+    if not insights:
+        return None
+    print(f"   ~ salvaged {len(insights)} complete insight(s) from a truncated response.")
+    return {"tldr": tldr, "insights": insights}
