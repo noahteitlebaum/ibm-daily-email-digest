@@ -34,6 +34,18 @@ _GENERIC_TOKENS = {
     "products", "transport", "midland", "digital", "opportunities", "oil",
     "saint", "john", "of", "the", "and", "for", "co", "inc", "company",
     "kent", "horizon", "health", "network",
+    # Generic words from the expanded GNB departments / crown corps / munis
+    # (2026-07-22). These must NOT stand alone as distinctive evidence, or
+    # unrelated NB news matches. The full phrases (e.g. "NB Power", "City of
+    # Moncton") still match via _contains, and proper nouns (Moncton,
+    # Fredericton, ANBL, WorkSafeNB, Vestcor, Lepreau, Mactaquac, ...) are
+    # deliberately left OUT so they remain valid distinctive tokens.
+    "department", "education", "early", "childhood", "justice", "public",
+    "safety", "transportation", "infrastructure", "finance", "treasury",
+    "board", "secondary", "training", "labour", "natural", "resources",
+    "energy", "development", "local", "social", "post", "power", "liquor",
+    "cannabis", "housing", "corporation", "financial", "services",
+    "commission", "ambulance", "city", "town",
 }
 
 # Regex for capital-figure signals: $100M, C$450 million, US$600M, 1.3B, etc.

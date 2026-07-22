@@ -89,18 +89,53 @@ accounts:
     label: "Government of New Brunswick"
     grounding_file: "grounding/Client_News_to_IBM_Opportunity_Insights.md"
     entity_names:
+      # Core provincial government + central IT / service bodies
       - "Government of New Brunswick"
       - "Province of New Brunswick"
       - "Service New Brunswick"
       - "Digital New Brunswick"
       - "New Brunswick OCIO"
       - "Opportunities New Brunswick"
-    subsidiaries: []
+      # Provincial departments (Michael: "Service NB / other departments")
+      - "New Brunswick Department of Health"
+      - "New Brunswick Department of Social Development"
+      - "New Brunswick Department of Education and Early Childhood Development"
+      - "New Brunswick Department of Justice and Public Safety"
+      - "New Brunswick Department of Transportation and Infrastructure"
+      - "New Brunswick Department of Finance and Treasury Board"
+      - "New Brunswick Department of Post-Secondary Education Training and Labour"
+      - "New Brunswick Department of Natural Resources and Energy Development"
+      - "New Brunswick Department of Local Government"
+    subsidiaries:
+      # Crown corporations & provincial health authorities
+      - "NB Power"
+      - "New Brunswick Power"
+      - "NB Liquor"
+      - "ANBL"
+      - "Cannabis NB"
+      - "WorkSafeNB"
+      - "New Brunswick Housing Corporation"
+      - "Financial and Consumer Services Commission"
+      - "Vestcor"
+      - "Ambulance New Brunswick"
+      - "Horizon Health Network"
+      - "Vitalite Health Network"
+      # Major municipalities (Michael: "municipalities")
+      - "City of Fredericton"
+      - "City of Moncton"
+      - "City of Saint John"
+      - "City of Dieppe"
+      - "City of Miramichi"
+      - "City of Bathurst"
+      - "City of Edmundston"
+      - "City of Campbellton"
+      - "Town of Riverview"
+      - "Town of Quispamsis"
+      - "Town of Rothesay"
+      - "Town of Oromocto"
     people:
       - "Danny Keizer"
       - "Susan Holt"
-      - "Horizon Health Network"
-      - "Vitalite Health Network"
     tech_signals:
       - "New Brunswick digital government"
       - "New Brunswick IT modernization"
@@ -112,6 +147,13 @@ accounts:
       - "New Brunswick health IT"
       - "New Brunswick clinical information system"
       - "EAPO New Brunswick"
+      # Crown-corp / municipal IT signals
+      - "NB Power cybersecurity"
+      - "NB Power grid modernization"
+      - "NB Power digital"
+      - "Moncton smart city"
+      - "Fredericton smart city"
+      - "New Brunswick municipal technology"
     industry_terms:
       # Cybersecurity ecosystem
       - "UNB cybersecurity"
@@ -124,6 +166,10 @@ accounts:
       - "New Brunswick capital spending"
       - "New Brunswick Treasury Board"
       - "Susan Holt budget"
+      # Crown-corp capital programs
+      - "Point Lepreau"
+      - "Mactaquac"
+      - "NB Power capital"
 
   # --------------------------------------------------------------------------
   LCBO:
@@ -258,4 +304,6 @@ cautions:
     - "Irving Shipbuilding"
     - "Halifax Shipyard"
   # GNB returns far higher volume; cap how many GNB items reach the digest.
-  gnb_max_items: 8
+  # Raised 8 -> 15 (2026-07-22) after expanding GNB to cover departments,
+  # crown corporations, and municipalities per Michael Brooker's request.
+  gnb_max_items: 15
