@@ -108,11 +108,16 @@ def _process_team(team: dict, articles: list, relevant: list, client, seen: dict
     digest["insights"] = [i for i in _reconcile_sources(digest.get("insights", []), t_articles)
                           if _has_source(i)]
 
-    # Account radar — always sourced, working links.
+    # Account radar — always sourced, working links. Exclude anything already
+    # promoted to an opportunity insight so the same article isn't shown twice
+    # (matters now that "anything new" can become an opportunity).
+    opp_links = {(i.get("source_link") or "").strip()
+                 for i in digest["insights"]}
     radar = [{"title": a.title, "account": a.account_label, "link": a.link,
               "source": a.source,
               "date": a.published.strftime("%b %d") if a.published else ""}
-             for a in filt.account_context(t_articles) if (a.link or "").startswith("http")]
+             for a in filt.account_context(t_articles)
+             if (a.link or "").startswith("http") and a.link not in opp_links]
 
     # NEW-since-last-run flags.
     surfaced: list[str] = []

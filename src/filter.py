@@ -187,6 +187,10 @@ def _passes_guardrails(article: Article) -> bool:
 def filter_articles(articles: list[Article], verbose: bool = True) -> list[Article]:
     s = config.settings()["filtering"]
     min_score = s["min_relevance_score"]
+    # "Anything new = opportunity" mode: when on, an in-text account reference
+    # that clears the score is enough — no hard trigger signal required. When
+    # off, keep the stricter two-gate behaviour (must also carry an opp signal).
+    relevance_only = bool(s.get("opportunity_from_relevance", False))
     gnb_cap = config.keywords().get("cautions", {}).get("gnb_max_items", 8)
 
     kept: list[Article] = []
@@ -195,9 +199,11 @@ def filter_articles(articles: list[Article], verbose: bool = True) -> list[Artic
             continue
         _score_article(art)
         # Must genuinely reference the account in its TEXT (not just be returned
-        # by the query) AND carry an opportunity signal AND clear the score.
+        # by the query) and clear the score. Unless relevance_only is on, it must
+        # ALSO carry an opportunity signal (trigger / subsidiary / person / $).
+        opp_ok = relevance_only or getattr(art, "_opp_signal", False)
         if (getattr(art, "_content_account_ev", False)
-                and getattr(art, "_opp_signal", False)
+                and opp_ok
                 and art.score >= min_score):
             kept.append(art)
 

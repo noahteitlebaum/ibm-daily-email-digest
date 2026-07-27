@@ -30,6 +30,14 @@ feeds:
 filtering:
   # An article must reach this score to be considered "relevant".
   min_relevance_score: 2
+  # When true, ANY article that genuinely references the account in its text and
+  # clears min_relevance_score becomes an OPPORTUNITY candidate — even with no
+  # hard trigger signal (capex / exec change / cyber / M&A / $ figure). This is
+  # the "anything new = opportunity" mode: it maximizes how many opportunities
+  # surface (the AI then rates weak ones low confidence rather than hiding them).
+  # Set to false to require a trigger signal (stricter, fewer but higher-
+  # conviction opportunities; borderline items fall to the account radar).
+  opportunity_from_relevance: true
   weights:
     entity_name: 3          # core account name in title/summary
     subsidiary: 3

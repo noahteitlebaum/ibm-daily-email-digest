@@ -52,9 +52,16 @@ USER_TEMPLATE = """\
 {news_block}
 
 === YOUR TASK ===
-Analyse the news items above. Select the {max_insights} most opportunity-relevant
-items (favour budget/capex, executive changes, cyber, M&A, renewal, and AI/data
-signals). Discard pure PR with no IBM angle.
+Analyse the news items above. Treat EVERY distinct account development as a
+potential opportunity — return up to {max_insights} insights and do NOT discard
+an item just because it reads like PR or has no obvious commercial trigger. For a
+softer item, still produce an insight but set confidence to "low" and frame the
+why-now around the development itself (the honest IBM angle may be a relationship
+or discovery move, not an immediate deal). Order strongest-to-weakest and lead
+with the items that have real budget/capex, executive-change, cyber, M&A, renewal,
+or AI/data signals. Only merge items that are clearly the SAME story; otherwise
+give each development its own insight. Never fabricate facts, figures, or contacts
+to manufacture an opportunity — an honest low-confidence insight is correct.
 
 Return a SINGLE JSON object with EXACTLY this schema (no prose outside the JSON):
 

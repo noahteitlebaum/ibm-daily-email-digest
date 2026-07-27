@@ -150,18 +150,47 @@ def _primary_queries() -> list[tuple[str, str, str]]:
 
 
 def fetch_all(verbose: bool = True) -> list[Article]:
-    """Fetch every primary query, normalise, dedupe, and recency-filter."""
+    """Fetch every primary query, normalise, dedupe, and recency-filter.
+
+    Resilient by design: a single feed that times out or drops the connection
+    (Google News rate-limiting is common when firing many requests) is logged
+    and SKIPPED — it never aborts the whole run.
+    """
+    import socket
+
     s = config.settings()["feeds"]
     cutoff = datetime.now(timezone.utc) - timedelta(hours=s["max_age_hours"])
     delay = s.get("request_delay_seconds", 1.0)
     per_query = s.get("max_items_per_query", 25)
+    # Apply the configured timeout (feedparser has none of its own — a hung
+    # connection would otherwise stall or crash the run).
+    socket.setdefaulttimeout(s.get("request_timeout_seconds", 20))
+    # A browser-like UA reduces Google News throttling / connection resets.
+    agent = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+             "(KHTML, like Gecko) Chrome/125.0 Safari/537.36")
 
     seen_links: set[str] = set()
     articles: list[Article] = []
+    failed = 0
 
     for key, label, term in _primary_queries():
         url = _build_url(term)
-        feed = feedparser.parse(url)
+        try:
+            feed = feedparser.parse(url, agent=agent)
+        except Exception as exc:  # noqa: BLE001 - one bad feed must not kill the run
+            failed += 1
+            if verbose:
+                print(f"  [{key}] '{term}': SKIPPED ({type(exc).__name__}: {exc})")
+            time.sleep(delay)
+            continue
+        # feedparser stores transport errors on .bozo rather than raising.
+        if getattr(feed, "bozo", 0) and not feed.entries:
+            failed += 1
+            if verbose:
+                be = getattr(feed, "bozo_exception", "unknown error")
+                print(f"  [{key}] '{term}': SKIPPED ({be})")
+            time.sleep(delay)
+            continue
         if verbose:
             print(f"  [{key}] '{term}': {len(feed.entries)} entries")
 
@@ -200,7 +229,8 @@ def fetch_all(verbose: bool = True) -> list[Article]:
         time.sleep(delay)
 
     if verbose:
-        print(f"  -> {len(articles)} unique articles within {s['max_age_hours']}h window")
+        note = f" ({failed} feed(s) skipped)" if failed else ""
+        print(f"  -> {len(articles)} unique articles within {s['max_age_hours']}h window{note}")
     return articles
 
 
