@@ -62,8 +62,9 @@ def send_digest(subject: str, html_body: str, text_body: str,
         recipients: Optional list of recipient emails (overrides EMAIL_TO)
     """
     from sendgrid.helpers.mail import (
-        Mail, Email, To, Content, Attachment, FileContent, 
-        FileName, FileType, Disposition
+        Mail, Email, To, Content, Attachment, FileContent,
+        FileName, FileType, Disposition,
+        TrackingSettings, ClickTracking, OpenTracking
     )
     import base64
     
@@ -90,6 +91,16 @@ def send_digest(subject: str, html_body: str, text_body: str,
         plain_text_content=Content("text/plain", text_body),
         html_content=Content("text/html", html_body)
     )
+
+    # Disable SendGrid link rewriting. Click-tracking is ON by default and
+    # rewrites every href into a sendgrid.net redirect; without a verified
+    # tracking domain those redirects get flagged/dead-end in the inbox — which
+    # breaks EVERY link (even the plain Google search links). Turning it off
+    # lets our real hrefs pass through to the reader untouched.
+    tracking = TrackingSettings()
+    tracking.click_tracking = ClickTracking(enable=False, enable_text=False)
+    tracking.open_tracking = OpenTracking(enable=False)
+    message.tracking_settings = tracking
 
     # Add attachments
     attachment_count = 0

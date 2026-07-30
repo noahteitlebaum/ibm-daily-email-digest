@@ -106,19 +106,12 @@ def _decode_gnews_url(url: str) -> str | None:
 
 
 def _resolve_link(url: str, title: str, source: str = "") -> str:
-    """Return a link that ALWAYS works.
+    """Return a link that ALWAYS works when clicked.
 
-    1. Direct publisher link (feed already gave one) -> use as-is.
-    2. Google News link we can decode -> the real publisher URL.
-    3. Otherwise -> a Google search link for the headline (never breaks).
+    Google News RSS links are opaque redirects that often break in email, so we
+    deliberately point every link at a Google SEARCH for the headline. Clicking
+    always lands the reader on Google results for that story (never a dead link).
     """
-    url = (url or "").strip()
-    if url and "news.google.com" not in url and _valid_article_url(url):
-        return url
-    if "news.google.com" in url:
-        decoded = _decode_gnews_url(url)
-        if decoded:
-            return decoded
     return _search_url(title, source)
 
 

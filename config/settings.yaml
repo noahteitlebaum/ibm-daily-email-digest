@@ -11,9 +11,8 @@ email:
   # Only send when something is NEW since the last run (a new insight or a new
   # radar item). Essential for hourly runs so the team is not spammed with
   # repeats. Set false to send on every run regardless.
-  # TEMPORARILY false for hourly delivery testing — set back to true before
-  # pointing EMAIL_TO at the team / switching to daily.
-  only_when_new: false
+  # Live/production: only email a team when there's genuinely new news for it.
+  only_when_new: true
 
 feeds:
   # Only keep articles published within this many hours.

@@ -186,11 +186,16 @@ def run(dry_run: bool = False, mock_llm: bool = False,
     #   - ONLY_TO unset (and no --only-me) => production: each team's full
     #     recipient list from teams.yaml.
     #   - --only-me => only you, every team.
+    # A sentinel value in ONLY_TO means "no allowlist — full production". This
+    # lets the GitHub secret stay in place (GitHub won't save an empty secret)
+    # while still going live: set ONLY_TO to ALL / LIVE / OFF / NONE / EVERYONE.
+    _LIVE_SENTINELS = {"all", "live", "off", "none", "everyone", "prod", "production"}
     me = (config.env("EMAIL_FROM") or "").strip()
+    only_to_clean = (only_to or "").strip()
     if only_me:
         allow, gating = set(), True
-    elif (only_to or "").strip():
-        allow = {x.strip().lower() for x in only_to.split(",") if x.strip()}
+    elif only_to_clean and only_to_clean.lower() not in _LIVE_SENTINELS:
+        allow = {x.strip().lower() for x in only_to_clean.split(",") if x.strip()}
         gating = True
     else:
         allow, gating = None, False

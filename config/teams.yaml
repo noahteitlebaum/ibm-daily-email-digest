@@ -15,6 +15,7 @@ teams:
       - "Michael.Brooker@ibm.com"
       - "tonylodge@ca.ibm.com"
       - "noah.teitlebaum@ibm.com"
+      - "sandip.roy@ibm.com"
 
   - id: lcbo_loblaws
     name: "LCBO / Loblaws"
@@ -23,6 +24,7 @@ teams:
       - "Bala.Thiagarajan@ibm.com"
       - "Mona.Mehrotra@ibm.com"
       - "noah.teitlebaum@ibm.com"
+      - "sandip.roy@ibm.com"
 
   - id: nl_ns_emera
     name: "Newfoundland & Labrador / Nova Scotia / Emera"
@@ -31,6 +33,7 @@ teams:
       - "KevinCritch@ibm.com"
       - "tonylodge@ca.ibm.com"
       - "noah.teitlebaum@ibm.com"
+      - "sandip.roy@ibm.com"
 
   - id: interac_symcor_payments
     name: "Interac / Symcor / Payments Canada"
@@ -39,6 +42,7 @@ teams:
       - "Bruce.Maxwell@ibm.com"
       - "jzagar@ca.ibm.com"
       - "noah.teitlebaum@ibm.com"
+      - "sandip.roy@ibm.com"
 
   - id: gfl_cbs_gtaa
     name: "GFL / Canadian Blood Services / GTAA"
@@ -47,3 +51,4 @@ teams:
       - "smurphy@ca.ibm.com"
       - "Atin.Chandel@ibm.com"
       - "noah.teitlebaum@ibm.com"
+      - "sandip.roy@ibm.com"
