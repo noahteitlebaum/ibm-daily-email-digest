@@ -1,4 +1,4 @@
-"""Render the structured digest into a polished HTML email (and plain text).
+"""Render the structured digest into a polished HTML email (and plain text):
 
 Design goals: TLDR-first, scannable "at a glance" strip, and per-insight cards
 where the actionable parts (the IBM play, the recommended next move, and
