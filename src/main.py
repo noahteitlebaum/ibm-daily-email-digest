@@ -155,13 +155,28 @@ def _process_team(team: dict, articles: list, relevant: list, client, seen: dict
 
 def run(dry_run: bool = False, mock_llm: bool = False,
         send: bool = True, make_decks: bool = True,
-        only_me: bool = False, only_to: str | None = None) -> list[dict]:
+        only_me: bool = False, only_to: str | None = None,
+        team_filter: str | None = None) -> list[dict]:
     started = datetime.now()
     print(f"=== IBM Daily Digest run @ {started:%Y-%m-%d %H:%M} ===")
 
-    # 1. Fetch (all accounts across all teams) -----------------------------
+    teams = config.teams() or _default_teams()
+    # --team <id>: restrict this run to one team (scopes the fetch too, so a
+    # single-team send only pulls that team's feeds and finishes fast).
+    if team_filter:
+        wanted = {t.strip().lower() for t in team_filter.split(",") if t.strip()}
+        teams = [t for t in teams if str(t.get("id", "")).lower() in wanted
+                 or _slug(t.get("name", "")) in wanted]
+        if not teams:
+            print(f"ERROR: no team matched --team {team_filter!r}.", file=sys.stderr)
+            return []
+    scope_accounts: set[str] | None = None
+    if team_filter:
+        scope_accounts = {a for t in teams for a in t.get("accounts", [])}
+
+    # 1. Fetch (all accounts, or just the scoped team's) -------------------
     print("1) Fetching Google News RSS feeds...")
-    articles = feeds.fetch_all()
+    articles = feeds.fetch_all(accounts=scope_accounts)
 
     # 2. Filter for relevance ---------------------------------------------
     print("2) Scoring & filtering for relevance...")
@@ -173,7 +188,6 @@ def run(dry_run: bool = False, mock_llm: bool = False,
     only_when_new = config.settings().get("email", {}).get("only_when_new", True)
     oset = config.settings()["output"]
 
-    teams = config.teams() or _default_teams()
     out = config.output_dir()
     stamp = started.strftime("%Y-%m-%d")
     # Recipient override for testing: --only-to <addr> wins, else --only-me
@@ -255,6 +269,9 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--only-to", metavar="ADDR", default=None,
                    help="Send every team's digest only to ADDR, ignoring team "
                         "recipients. For a single-recipient pilot.")
+    p.add_argument("--team", metavar="ID", default=None,
+                   help="Restrict the run to one team (by id or name slug, "
+                        "comma-separated for several). Scopes the fetch too.")
     p.add_argument("--test-email", metavar="ADDR", nargs="?", const="__self__",
                    help="Send a one-line test email (to ADDR, or EMAIL_FROM/EMAIL_TO "
                         "if omitted) and exit, to confirm delivery works.")
@@ -283,7 +300,8 @@ def main(argv: list[str] | None = None) -> int:
         run(dry_run=args.dry_run, mock_llm=args.mock_llm,
             send=not args.no_email, make_decks=not args.no_decks,
             only_me=args.only_me,
-            only_to=args.only_to or config.env("ONLY_TO"))
+            only_to=args.only_to or config.env("ONLY_TO"),
+            team_filter=args.team)
         return 0
     except Exception as exc:  # noqa: BLE001 - top-level guard for scheduled runs
         print(f"ERROR: {exc}", file=sys.stderr)

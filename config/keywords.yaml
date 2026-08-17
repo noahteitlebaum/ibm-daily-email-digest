@@ -292,6 +292,56 @@ accounts:
     tech_signals: ["Pearson digital", "Pearson technology", "GTAA cloud", "Pearson cybersecurity"]
     industry_terms: ["Pearson expansion", "Pearson capital", "Toronto Pearson investment"]
 
+  # ==========================================================================
+  # Jayne Campbell — new client accounts (news-only; no grounding brief yet).
+  # Added 2026-08-17.
+  # ==========================================================================
+
+  # --------------------------------------------------------------------------
+  BROOKFIELD_ENERCARE:
+    label: "Brookfield / Enercare"
+    entity_names: ["Brookfield Corporation", "Brookfield Asset Management", "Enercare"]
+    subsidiaries: ["Brookfield Renewable", "Brookfield Infrastructure", "Brookfield Properties"]
+    people: []
+    tech_signals: ["Brookfield digital", "Brookfield technology", "Brookfield AI", "Enercare technology"]
+    industry_terms: ["Brookfield acquisition", "Brookfield investment", "Enercare home services", "Enercare HVAC"]
+
+  # --------------------------------------------------------------------------
+  LINAMAR_BOURGAULT:
+    label: "Linamar / Bourgault"
+    entity_names: ["Linamar", "Bourgault"]
+    subsidiaries: ["Skyjack", "MacDon", "Bourgault Industries"]
+    people: []
+    tech_signals: ["Linamar digital", "Linamar technology", "Linamar automation", "Linamar cybersecurity"]
+    industry_terms: ["Linamar manufacturing", "Linamar EV", "Linamar acquisition", "Bourgault seeding", "Bourgault equipment"]
+
+  # --------------------------------------------------------------------------
+  THOMSON_REUTERS:
+    label: "Thomson Reuters"
+    entity_names: ["Thomson Reuters"]
+    subsidiaries: ["Westlaw", "Thomson Reuters Legal", "Checkpoint Thomson Reuters", "ONESOURCE"]
+    people: []
+    tech_signals: ["Thomson Reuters AI", "Thomson Reuters cloud", "Thomson Reuters technology", "Thomson Reuters generative AI"]
+    industry_terms: ["Thomson Reuters acquisition", "Thomson Reuters CoCounsel", "Thomson Reuters legal tech", "Thomson Reuters investment"]
+
+  # --------------------------------------------------------------------------
+  CCL:
+    label: "CCL Industries"
+    entity_names: ["CCL Industries"]
+    subsidiaries: ["CCL Label", "Checkpoint Systems", "Innovia Films", "Avery products"]
+    people: []
+    tech_signals: ["CCL Industries digital", "CCL Industries technology", "CCL Industries automation"]
+    industry_terms: ["CCL Industries acquisition", "CCL Industries packaging", "CCL Industries labels", "CCL Industries expansion"]
+
+  # --------------------------------------------------------------------------
+  TFI_OVERLAND:
+    label: "TFI International / Overland Express"
+    entity_names: ["TFI International", "Overland Express"]
+    subsidiaries: ["TForce Freight", "Canpar Express", "GLS Canada", "Daseke"]
+    people: []
+    tech_signals: ["TFI International digital", "TFI International technology", "TFI International fleet"]
+    industry_terms: ["TFI International acquisition", "TFI International trucking", "TFI International logistics", "TFI International LTL"]
+
 # ============================================================================
 # Guardrails / cautions (see USAGE NOTES in source + filter.py logic)
 # ============================================================================

@@ -52,3 +52,12 @@ teams:
       - "Atin.Chandel@ibm.com"
       - "noah.teitlebaum@ibm.com"
       - "sandip.roy@ibm.com"
+
+  # Jayne Campbell's 5 new clients — separate digest, goes only to Jayne + Noah.
+  # Name lists every client so they all appear in the email subject/heading.
+  - id: jayne_clients
+    name: "Brookfield/Enercare, Linamar/Bourgault, Thomson Reuters, CCL, TFI/Overland Express"
+    accounts: ["BROOKFIELD_ENERCARE", "LINAMAR_BOURGAULT", "THOMSON_REUTERS", "CCL", "TFI_OVERLAND"]
+    recipients:
+      - "noah.teitlebaum@ibm.com"
+      - "jcampbel@ca.ibm.com"

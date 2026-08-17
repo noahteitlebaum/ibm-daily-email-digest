@@ -132,17 +132,23 @@ def _parse_date(entry) -> datetime | None:
     return None
 
 
-def _primary_queries() -> list[tuple[str, str, str]]:
-    """Yield (account_key, account_label, query_term) for every primary term."""
+def _primary_queries(accounts: set[str] | None = None) -> list[tuple[str, str, str]]:
+    """Yield (account_key, account_label, query_term) for every primary term.
+
+    If ``accounts`` is given, only those account keys are queried — used to
+    scope a single-team run so it fetches a handful of feeds instead of all.
+    """
     out: list[tuple[str, str, str]] = []
     for key, acct in config.keywords()["accounts"].items():
+        if accounts is not None and key not in accounts:
+            continue
         label = acct["label"]
         for term in acct.get("entity_names", []) + acct.get("subsidiaries", []):
             out.append((key, label, term))
     return out
 
 
-def fetch_all(verbose: bool = True) -> list[Article]:
+def fetch_all(verbose: bool = True, accounts: set[str] | None = None) -> list[Article]:
     """Fetch every primary query, normalise, dedupe, and recency-filter.
 
     Resilient by design: a single feed that times out or drops the connection
@@ -166,7 +172,7 @@ def fetch_all(verbose: bool = True) -> list[Article]:
     articles: list[Article] = []
     failed = 0
 
-    for key, label, term in _primary_queries():
+    for key, label, term in _primary_queries(accounts):
         url = _build_url(term)
         try:
             feed = feedparser.parse(url, agent=agent)
