@@ -471,8 +471,7 @@ def render_html(digest: dict, article_count: int, status_note: str = "",
         <tr><td style="background:#fff;padding:22px 26px;border-radius:0 0 6px 6px;">
           <div style="font-size:12px;color:{IBM_GRAY};margin-bottom:16px;">
             <b style="color:{IBM_DARK};">{len(insights)}</b> opportunity insight(s) from
-            <b style="color:{IBM_DARK};">{article_count}</b> screened article(s) &mdash;
-            J.D. Irving, Irving Oil &amp; the Government of New Brunswick.
+            <b style="color:{IBM_DARK};">{article_count}</b> screened article(s)
           </div>
           {note_block}
           {glance_block}
