@@ -52,4 +52,4 @@ jobs:
           # Optional pilot: if this secret is set, EVERY team's digest goes only
           # to that address. Delete the secret to send to real recipients.
           ONLY_TO: ${{ secrets.ONLY_TO }}
-        run: python -m src.main --no-decks
+        run: python -m src.main --no-decks --only-me
