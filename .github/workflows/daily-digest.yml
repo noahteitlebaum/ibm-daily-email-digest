@@ -3,9 +3,9 @@ name: IBM Daily Digest
 # Free, always-on scheduler. Runs on GitHub's servers — no local machine needed.
 on:
   schedule:
-    # Target 1 AM Eastern so GitHub's typical ~8h scheduler delay lands the
+    # Target 3 AM Eastern so GitHub's typical ~6h scheduler delay lands the
     # send near 9 AM. GitHub cron is UTC and does NOT observe DST:
-    - cron: "0 5 * * 1-5"
+    - cron: "0 7 * * 1-5"
   workflow_dispatch: {}   # lets you run it manually from the Actions tab to test
 
 jobs:
